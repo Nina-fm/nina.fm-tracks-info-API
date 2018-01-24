@@ -113,6 +113,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		if(isset($_GET['id'])){
 			foreach ($metadata as $key => $value) {
 				if($value -> id  == $_GET['id']){
+					unlink('pics/'.$metadata[$key] -> cover);
 					array_splice($metadata, $key, 1);
 					saveData($metadata);
 					http_response_code(200);
