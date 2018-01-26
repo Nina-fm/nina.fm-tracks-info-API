@@ -35,6 +35,15 @@ function find_exact_match($artist, $title, $metadata){
 	}
 }
 
+function requireData($data){
+	if(empty($data['title']) || empty($data['artist']) || empty($data['type'])){
+		http_response_code(400);
+		$arr = array('message' => 'Please specify at least title artist and type');
+		echo json_encode($arr);
+		exit();
+	}
+}
+
 switch ($_SERVER['REQUEST_METHOD']) {
 
 	case 'GET':
@@ -72,16 +81,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		$id = uniqid();
 
-		$cover = null;
-
 		$data = json_decode(file_get_contents('php://input'), true);
 
-		if(empty($data['title']) || empty($data['artist']) || empty($data['type'])){
-			http_response_code(400);
-			$arr = array('message' => 'Please specify at least title artist and type');
-			echo json_encode($arr);
-			return;
-		}
+		requireData($data);
+
+		$cover = null;
 
 		if(!empty($data['cover'])){
 			preg_match('"data:image\/([a-zA-Z]*);base64,([^\"]*)"', $data['cover'], $matches);
@@ -105,6 +109,80 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		saveData($metadata);
 
 		break;
+
+	case 'PUT':
+		secure();
+
+		$data = json_decode(file_get_contents('php://input'), true);
+
+		requireData($data);
+
+		$id;
+
+		if(isset($data['id'])){
+			foreach ($metadata as $key => $value) {
+				if($value -> id  == $data['id']){
+					$id = $value -> id;
+					$index = $key;
+				}
+			}		
+		}
+
+		if($id === null){
+			http_response_code(404);
+			$arr = array('message' => 'Cannot find data with this id');
+			echo json_encode($arr);
+			return;
+		}
+
+		if(empty($data['title']) || empty($data['artist']) || empty($data['type'])){
+			http_response_code(400);
+			$arr = array('message' => 'Please specify at least title artist and type');
+			echo json_encode($arr);
+			return;
+		}
+
+		$cover;
+		//Cover
+		if(!empty($data['cover'])){
+			preg_match('"data:image\/([a-zA-Z]*);base64,([^\"]*)"', $data['cover'], $matches);
+			if(!empty($matches)){
+				//We got a file
+
+				//Delete old picture
+				unlink('pics/'.$metadata[$index] -> cover);
+
+				//Save new one
+				$cover = $id.'.'.$matches[1];
+				file_put_contents('pics/'.$cover, base64_decode($matches[2]));
+
+			} else {
+				$cover = $metadata[$index] -> cover;
+			}
+		} else {
+			//Delete old picture
+			unlink('pics/'.$metadata[$index] -> cover);
+
+			$cover = null;
+		}
+
+		echo $cover;
+
+		$data = array(
+			"id" => $id,
+			"title" => $data["title"],
+			"artist" => $data["artist"],
+			"type" => $data["type"],
+			"cover" => $cover,
+			"tracks" => $data["tracks"],
+			"year" => $data["year"],
+			"comments" => $data["comments"]
+		);
+
+		$metadata[$index] = $data;
+
+		saveData($metadata);
+	break;
 	
 	case 'DELETE':
 
