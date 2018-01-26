@@ -101,6 +101,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			"cover" => $cover,
 			"tracks" => $data["tracks"],
 			"year" => $data["year"],
+			"tags" => $data["tags"],
 			"comments" => $data["comments"]
 		);
 
@@ -176,6 +177,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			"cover" => $cover,
 			"tracks" => $data["tracks"],
 			"year" => $data["year"],
+			"tags" => $data["tags"],
 			"comments" => $data["comments"]
 		);
 
