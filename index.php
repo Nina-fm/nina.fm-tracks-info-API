@@ -178,8 +178,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			"tracks" => $data["tracks"],
 			"year" => $data["year"],
 			"tags" => $data["tags"],
-			"comments" => $data["comments"]
+			"comments" => $data["comments"],
+			"text_tracks" => $metadata[$index]["text_tracks"]
 		);
+
+
 
 		$metadata[$index] = $data;
 
