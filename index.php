@@ -57,7 +57,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
 				$result = array($result);
 
 			if(!$result){
-				http_response_code(400);
+				// Return empty content
+				echo json_encode([]);
+
+				// Return "No Content" error code
+				http_response_code(204);
 				return;
 			}	
 
