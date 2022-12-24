@@ -1,5 +1,5 @@
 import { ExceptionsHandler } from "~/middlewares/exceptions.handler";
-import { TracksController } from "~/resources/tracks/tracks.controller";
+import { SourcesController } from "~/resources/sources/sources.controller";
 import { UnknownRoutesHandler } from "~/middlewares/unknownRoutes.handler";
 import { config } from "~/config";
 import cors from "cors";
@@ -31,12 +31,12 @@ app.use(express.static("public"));
 /**
  * Toutes les routes CRUD pour les tracks seronts préfixées par `/tracks`
  */
-app.use("/tracks", TracksController);
+app.use("/", SourcesController);
 
 /**
  * Homepage (uniquement necessaire pour cette demo)
  */
-app.get("/", (req, res) => res.send("Nina.fm Track Info API"));
+app.get("/", (req, res) => res.send("Nina.fm MusicInfo API"));
 
 /**
  * Pour toutes les autres routes non définies, on retourne une erreur

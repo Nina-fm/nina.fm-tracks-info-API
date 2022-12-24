@@ -1,15 +1,16 @@
-export interface TrackItem {
+export interface Track {
   title?: string;
   artist?: string;
   position?: number;
 }
 
-export interface Track {
+export interface Source {
   id: string;
   type: string;
   artist: string;
   title: string;
   cover: string;
-  tracks: TrackItem[];
+  coverUrl?: string;
+  tracks: Track[];
   text_tracks?: string | null;
 }
