@@ -6,7 +6,7 @@ import uniqid from "uniqid";
 
 dotenv.config();
 
-const getPublicUrl = (file: string) => `${process.env.BASE_URL}/covers/${file}`;
+const getPublicUrl = (file: string) => `${process.env.URL}/covers/${file}`;
 
 export class SourcesService {
   /**
