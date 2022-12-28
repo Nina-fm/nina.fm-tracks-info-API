@@ -1,5 +1,5 @@
 import { ExceptionsHandler } from "~/middlewares/exceptions.handler";
-import { SourcesController } from "~/resources/sources/sources.controller";
+import { MixtapesController } from "~/resources/mixtapes/mixtapes.controller";
 import { UnknownRoutesHandler } from "~/middlewares/unknownRoutes.handler";
 import { config } from "~/config";
 import cors from "cors";
@@ -31,7 +31,7 @@ app.use(express.static("public"));
 /**
  * Toutes les routes CRUD pour les tracks seronts préfixées par `/tracks`
  */
-app.use("/", SourcesController);
+app.use("/mixtapes", MixtapesController);
 
 /**
  * Homepage (uniquement necessaire pour cette demo)
