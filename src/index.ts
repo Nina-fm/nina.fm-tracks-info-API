@@ -52,4 +52,4 @@ app.use(ExceptionsHandler);
 /**
  * On demande à Express d'ecouter les requêtes sur le port défini dans la config
  */
-app.listen(config.API_PORT, () => console.log("Silence, ça tourne."));
+app.listen(process.env.API_PORT, () => console.log("Silence, ça tourne."));
