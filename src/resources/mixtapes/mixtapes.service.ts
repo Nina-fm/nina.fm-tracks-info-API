@@ -3,7 +3,6 @@ import { Exception, NotFoundException } from "~/utils/exceptions";
 import type { Mixtape } from "~~/types/mixtapes";
 import data from "~~/data/data.json";
 import dotenv from "dotenv";
-import { exists } from "fs";
 import uniqid from "uniqid";
 
 dotenv.config();
